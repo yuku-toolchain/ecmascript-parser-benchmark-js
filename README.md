@@ -15,33 +15,27 @@ Benchmark ECMAScript parsers running in JavaScript, including pure JS parsers an
 
 ### [Acorn](https://github.com/acornjs/acorn)
 
-**Type:** Pure JS
-
 A tiny, fast JavaScript parser, written completely in JavaScript.
 
 ### [Babel](https://github.com/babel/babel/tree/main/packages/babel-parser)
 
-**Type:** Pure JS
-
 A JavaScript compiler and parser used by the Babel toolchain.
+
+### [Hermes](https://github.com/nicolo-ribaudo/hermes-parser)
+
+A JavaScript engine optimized for React Native, with a standalone parser available via WASM.
 
 ### [Oxc](https://github.com/oxc-project/oxc)
 
-**Type:** Native (NAPI)
-
-A high-performance JavaScript and TypeScript parser written in Rust, with NAPI bindings.
+A high-performance JavaScript and TypeScript parser written in Rust.
 
 ### [SWC](https://github.com/swc-project/swc)
 
-**Type:** Native (NAPI)
-
-An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript, with NAPI bindings.
+An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript.
 
 ### [Yuku](https://github.com/yuku-toolchain/yuku)
 
-**Type:** Native (NAPI)
-
-A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zig, with NAPI bindings.
+A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zig.
 
 ## Benchmarks
 
@@ -53,11 +47,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 63.77 ms | 52.97 ms | 93.18 ms |
-| Acorn | 159.94 ms | 136.92 ms | 291.29 ms |
-| Babel | 203.60 ms | 159.32 ms | 357.88 ms |
-| Oxc | 287.68 ms | 271.93 ms | 349.65 ms |
-| SWC | 585.15 ms | 489.98 ms | 963.14 ms |
+| Yuku | 59.35 ms | 51.86 ms | 101.42 ms |
+| Acorn | 156.29 ms | 135.03 ms | 248.03 ms |
+| Babel | 213.11 ms | 134.29 ms | 590.82 ms |
+| Oxc | 324.41 ms | 268.03 ms | 444.03 ms |
+| Hermes | 353.14 ms | 240.96 ms | 895.95 ms |
+| SWC | 561.34 ms | 475.51 ms | 726.22 ms |
 
 ### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
 
@@ -67,11 +62,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 18.68 ms | 16.55 ms | 79.45 ms |
-| Acorn | 32.11 ms | 29.67 ms | 36.81 ms |
-| Babel | 39.39 ms | 28.78 ms | 49.95 ms |
-| Oxc | 52.85 ms | 49.54 ms | 101.73 ms |
-| SWC | 92.47 ms | 87.38 ms | 108.34 ms |
+| Yuku | 18.39 ms | 16.55 ms | 77.06 ms |
+| Acorn | 30.04 ms | 28.67 ms | 40.70 ms |
+| Babel | 37.06 ms | 27.95 ms | 134.85 ms |
+| Oxc | 51.97 ms | 48.99 ms | 67.58 ms |
+| Hermes | 65.96 ms | 55.21 ms | 115.80 ms |
+| SWC | 93.05 ms | 85.67 ms | 210.43 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -81,11 +77,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.42 ms | 0.38 ms | 4.23 ms |
-| Acorn | 1.08 ms | 0.96 ms | 7.11 ms |
-| Babel | 1.41 ms | 0.93 ms | 6.41 ms |
-| Oxc | 1.60 ms | 1.54 ms | 5.40 ms |
-| SWC | 2.92 ms | 2.81 ms | 6.52 ms |
+| Yuku | 0.41 ms | 0.38 ms | 5.10 ms |
+| Acorn | 1.04 ms | 0.98 ms | 21.48 ms |
+| Babel | 1.08 ms | 0.95 ms | 19.64 ms |
+| Oxc | 1.64 ms | 1.53 ms | 16.95 ms |
+| Hermes | 1.86 ms | 1.69 ms | 35.46 ms |
+| SWC | 2.95 ms | 2.80 ms | 14.03 ms |
 
 ## Run Benchmarks
 

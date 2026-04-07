@@ -10,37 +10,38 @@ const FILES_SOURCE_URL_PREFIX =
 const PARSERS = {
   acorn: {
     name: "Acorn",
-    type: "Pure JS",
     description:
       "A tiny, fast JavaScript parser, written completely in JavaScript.",
     url: "https://github.com/acornjs/acorn",
   },
   babel: {
     name: "Babel",
-    type: "Pure JS",
     description:
       "A JavaScript compiler and parser used by the Babel toolchain.",
     url: "https://github.com/babel/babel/tree/main/packages/babel-parser",
   },
+  hermes: {
+    name: "Hermes",
+    description:
+      "A JavaScript engine optimized for React Native, with a standalone parser available via WASM.",
+    url: "https://github.com/nicolo-ribaudo/hermes-parser",
+  },
   oxc: {
     name: "Oxc",
-    type: "Native (NAPI)",
     description:
-      "A high-performance JavaScript and TypeScript parser written in Rust, with NAPI bindings.",
+      "A high-performance JavaScript and TypeScript parser written in Rust.",
     url: "https://github.com/oxc-project/oxc",
   },
   swc: {
     name: "SWC",
-    type: "Native (NAPI)",
     description:
-      "An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript, with NAPI bindings.",
+      "An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript.",
     url: "https://github.com/swc-project/swc",
   },
   yuku: {
     name: "Yuku",
-    type: "Native (NAPI)",
     description:
-      "A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zig, with NAPI bindings.",
+      "A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zig.",
     url: "https://github.com/yuku-toolchain/yuku",
   },
 } as const;
@@ -48,6 +49,7 @@ const PARSERS = {
 const CHART_COLORS: Record<string, string> = {
   acorn: "#4CC9F0",
   babel: "#7209B7",
+  hermes: "#118AB2",
   oxc: "#F72585",
   swc: "#3A86FF",
   yuku: "#FF6B35",
@@ -56,6 +58,7 @@ const CHART_COLORS: Record<string, string> = {
 const NAME_TO_KEY: Record<string, string> = {
   Acorn: "acorn",
   Babel: "babel",
+  Hermes: "hermes",
   Oxc: "oxc",
   SWC: "swc",
   Yuku: "yuku",
@@ -277,8 +280,6 @@ function generateParsersSection(): string {
 
   for (const [, parser] of Object.entries(PARSERS)) {
     lines.push(`### [${parser.name}](${parser.url})`);
-    lines.push("");
-    lines.push(`**Type:** ${parser.type}`);
     lines.push("");
     lines.push(parser.description);
     lines.push("");
