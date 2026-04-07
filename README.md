@@ -7,9 +7,9 @@ Benchmark ECMAScript parsers running in JavaScript, including pure JS parsers an
 | Property | Value |
 |----------|-------|
 | OS | macOS 24.6.0 (arm64) |
-| CPU | Apple M3 |
-| Cores | 8 |
-| Memory | 16 GB |
+| CPU | Apple M4 Pro (Virtual) |
+| Cores | 6 |
+| Memory | 14 GB |
 
 ## Parsers
 
@@ -47,12 +47,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 59.35 ms | 51.86 ms | 101.42 ms |
-| Acorn | 156.29 ms | 135.03 ms | 248.03 ms |
-| Babel | 213.11 ms | 134.29 ms | 590.82 ms |
-| Oxc | 324.41 ms | 268.03 ms | 444.03 ms |
-| Hermes | 353.14 ms | 240.96 ms | 895.95 ms |
-| SWC | 561.34 ms | 475.51 ms | 726.22 ms |
+| Yuku | 50.00 ms | 46.60 ms | 64.62 ms |
+| Acorn | 114.71 ms | 104.52 ms | 130.44 ms |
+| Babel | 155.38 ms | 125.06 ms | 197.03 ms |
+| Oxc | 233.01 ms | 225.61 ms | 256.33 ms |
+| Hermes | 242.55 ms | 218.87 ms | 298.53 ms |
+| SWC | 417.36 ms | 394.00 ms | 482.37 ms |
 
 ### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
 
@@ -62,12 +62,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 18.39 ms | 16.55 ms | 77.06 ms |
-| Acorn | 30.04 ms | 28.67 ms | 40.70 ms |
-| Babel | 37.06 ms | 27.95 ms | 134.85 ms |
-| Oxc | 51.97 ms | 48.99 ms | 67.58 ms |
-| Hermes | 65.96 ms | 55.21 ms | 115.80 ms |
-| SWC | 93.05 ms | 85.67 ms | 210.43 ms |
+| Yuku | 14.41 ms | 13.84 ms | 20.74 ms |
+| Acorn | 26.07 ms | 24.27 ms | 31.50 ms |
+| Babel | 29.94 ms | 24.96 ms | 38.01 ms |
+| Oxc | 43.59 ms | 42.13 ms | 49.88 ms |
+| Hermes | 53.64 ms | 49.94 ms | 73.71 ms |
+| SWC | 75.69 ms | 74.31 ms | 79.52 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -77,12 +77,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.41 ms | 0.38 ms | 5.10 ms |
-| Acorn | 1.04 ms | 0.98 ms | 21.48 ms |
-| Babel | 1.08 ms | 0.95 ms | 19.64 ms |
-| Oxc | 1.64 ms | 1.53 ms | 16.95 ms |
-| Hermes | 1.86 ms | 1.69 ms | 35.46 ms |
-| SWC | 2.95 ms | 2.80 ms | 14.03 ms |
+| Yuku | 0.35 ms | 0.33 ms | 4.53 ms |
+| Acorn | 0.83 ms | 0.79 ms | 2.26 ms |
+| Babel | 0.94 ms | 0.84 ms | 4.60 ms |
+| Oxc | 1.37 ms | 1.31 ms | 3.77 ms |
+| Hermes | 1.65 ms | 1.51 ms | 5.65 ms |
+| SWC | 2.48 ms | 2.40 ms | 3.73 ms |
 
 ## Run Benchmarks
 
