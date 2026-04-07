@@ -1,0 +1,368 @@
+import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { arch, cpus, platform, release, totalmem } from "node:os";
+import { join } from "node:path";
+import type { ChartConfiguration } from "chart.js";
+import { ChartJSNodeCanvas } from "chartjs-node-canvas";
+
+const FILES_SOURCE_URL_PREFIX =
+  "https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main";
+
+const PARSERS = {
+  acorn: {
+    name: "Acorn",
+    type: "Pure JS",
+    description:
+      "A tiny, fast JavaScript parser, written completely in JavaScript.",
+    url: "https://github.com/acornjs/acorn",
+  },
+  babel: {
+    name: "Babel",
+    type: "Pure JS",
+    description:
+      "A JavaScript compiler and parser used by the Babel toolchain.",
+    url: "https://github.com/babel/babel/tree/main/packages/babel-parser",
+  },
+  oxc: {
+    name: "Oxc",
+    type: "Native (NAPI)",
+    description:
+      "A high-performance JavaScript and TypeScript parser written in Rust, with NAPI bindings.",
+    url: "https://github.com/oxc-project/oxc",
+  },
+  swc: {
+    name: "SWC",
+    type: "Native (NAPI)",
+    description:
+      "An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript, with NAPI bindings.",
+    url: "https://github.com/swc-project/swc",
+  },
+  yuku: {
+    name: "Yuku",
+    type: "Native (NAPI)",
+    description:
+      "A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zig, with NAPI bindings.",
+    url: "https://github.com/yuku-toolchain/yuku",
+  },
+} as const;
+
+const CHART_COLORS: Record<string, string> = {
+  acorn: "#4CC9F0",
+  babel: "#7209B7",
+  oxc: "#F72585",
+  swc: "#3A86FF",
+  yuku: "#FF6B35",
+};
+
+const NAME_TO_KEY: Record<string, string> = {
+  Acorn: "acorn",
+  Babel: "babel",
+  Oxc: "oxc",
+  SWC: "swc",
+  Yuku: "yuku",
+};
+
+const FILES = {
+  typescript: {
+    path: "files/typescript.js",
+    source_url: `${FILES_SOURCE_URL_PREFIX}/typescript.js`,
+  },
+  three: {
+    path: "files/three.js",
+    source_url: `${FILES_SOURCE_URL_PREFIX}/three.js`,
+  },
+  react: {
+    path: "files/react.js",
+    source_url: `${FILES_SOURCE_URL_PREFIX}/react.js`,
+  },
+} as const;
+
+type FileKey = keyof typeof FILES;
+
+interface BenchResult {
+  name: string;
+  mean: number;
+  min: number;
+  max: number;
+  median: number;
+  stddev: number;
+  samples: number;
+}
+
+interface FileResult {
+  file: string;
+  results: BenchResult[];
+}
+
+interface ParserEntry {
+  key: string;
+  name: string;
+  result: BenchResult | null;
+}
+
+function formatBytes(bytes: number): string {
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function formatTime(ms: number): string {
+  return `${ms.toFixed(2)} ms`;
+}
+
+async function readBenchmarkResults(fileKey: FileKey): Promise<FileResult> {
+  const content = await readFile(join(process.cwd(), "result", `${fileKey}.json`), "utf-8");
+  return JSON.parse(content) as FileResult;
+}
+
+function getParserEntries(data: FileResult): ParserEntry[] {
+  const resultsByKey = new Map<string, BenchResult>();
+  for (const result of data.results) {
+    const key = NAME_TO_KEY[result.name];
+    if (key) resultsByKey.set(key, result);
+  }
+
+  const entries: ParserEntry[] = [];
+  for (const [key, parser] of Object.entries(PARSERS)) {
+    entries.push({ key, name: parser.name, result: resultsByKey.get(key) ?? null });
+  }
+
+  entries.sort((a, b) => {
+    if (a.result && b.result) return a.result.mean - b.result.mean;
+    if (a.result && !b.result) return -1;
+    if (!a.result && b.result) return 1;
+    return 0;
+  });
+
+  return entries;
+}
+
+async function generateChart(entries: ParserEntry[], chartName: string): Promise<string> {
+  const data = entries.filter((e) => e.result != null);
+  if (data.length === 0) return "";
+
+  const labels = data.map((e) => e.name);
+  const meanData = data.map((e) => e.result!.mean);
+  const colors = data.map((e) => CHART_COLORS[e.key] ?? "#888888");
+
+  const maxTime = Math.max(...meanData);
+  const niceSteps = [10, 20, 25, 50, 100, 200, 250, 500];
+  const rawStep = maxTime / 4;
+  const step = niceSteps.find((s) => s >= rawStep) || Math.ceil(rawStep / 100) * 100;
+  const chartMax = Math.ceil(maxTime / step) * step;
+
+  const dpr = 3;
+  const chartWidth = 500;
+  const chartHeight = data.length * 24 + 28;
+
+  const chartJSNodeCanvas = new ChartJSNodeCanvas({
+    width: chartWidth * dpr,
+    height: chartHeight * dpr,
+  });
+
+  const configuration: ChartConfiguration = {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          data: meanData,
+          backgroundColor: colors,
+          borderWidth: 0,
+          borderRadius: 0,
+          barPercentage: 0.75,
+          categoryPercentage: 0.92,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: false,
+      devicePixelRatio: 1,
+      layout: {
+        padding: { right: 65 * dpr, top: 2 * dpr, bottom: 0 },
+      },
+      plugins: {
+        legend: { display: false },
+        title: { display: false },
+      },
+      scales: {
+        x: { display: false, beginAtZero: true, max: chartMax },
+        y: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            color: "#CAC1B0",
+            font: { size: 9 * dpr },
+            padding: 3 * dpr,
+          },
+        },
+      },
+    },
+    plugins: [
+      {
+        id: "value-labels",
+        afterDatasetsDraw(chart) {
+          const ctx = chart.ctx;
+          const meta = chart.getDatasetMeta(0);
+          const dataset = chart.data.datasets[0];
+          for (let i = 0; i < meta.data.length; i++) {
+            const bar = meta.data[i];
+            const value = dataset.data[i] as number;
+            ctx.save();
+            ctx.fillStyle = "#CAC1B0";
+            ctx.font = `${9 * dpr}px sans-serif`;
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+            ctx.fillText(`${value.toFixed(2)}ms`, bar.x + 8 * dpr, bar.y);
+            ctx.restore();
+          }
+        },
+      },
+    ],
+  };
+
+  const imageBuffer = await chartJSNodeCanvas.renderToBuffer(configuration);
+  const chartPath = join(process.cwd(), "charts", `${chartName}.png`);
+  await mkdir(join(process.cwd(), "charts"), { recursive: true });
+  await writeFile(chartPath, imageBuffer);
+
+  return `charts/${chartName}.png`;
+}
+
+function generateTable(entries: ParserEntry[]): string {
+  const lines: string[] = [];
+
+  lines.push("| Parser | Mean | Min | Max |");
+  lines.push("|--------|------|-----|-----|");
+
+  for (const { name, result } of entries) {
+    if (!result) {
+      lines.push(`| ${name} | Failed to parse | - | - |`);
+      continue;
+    }
+    lines.push(`| ${name} | ${formatTime(result.mean)} | ${formatTime(result.min)} | ${formatTime(result.max)} |`);
+  }
+
+  return lines.join("\n");
+}
+
+async function generateBenchmarksSection(): Promise<string> {
+  const lines = ["## Benchmarks", ""];
+
+  for (const [key, file] of Object.entries(FILES)) {
+    const fileKey = key as FileKey;
+    const fileName = file.path.split("/").pop()!;
+    const fileSize = (await stat(join(process.cwd(), file.path))).size;
+    const data = await readBenchmarkResults(fileKey);
+    const entries = getParserEntries(data);
+
+    lines.push(`### [${fileName}](${file.source_url})`);
+    lines.push("");
+    lines.push(`**File size:** ${formatBytes(fileSize)}`);
+    lines.push("");
+
+    const chartPath = await generateChart(entries, fileKey);
+    if (chartPath) {
+      lines.push(`![${fileName} Performance](${chartPath})`);
+      lines.push("");
+    }
+
+    lines.push(generateTable(entries));
+    lines.push("");
+  }
+
+  return lines.join("\n");
+}
+
+function generateParsersSection(): string {
+  const lines = ["## Parsers", ""];
+
+  for (const [, parser] of Object.entries(PARSERS)) {
+    lines.push(`### [${parser.name}](${parser.url})`);
+    lines.push("");
+    lines.push(`**Type:** ${parser.type}`);
+    lines.push("");
+    lines.push(parser.description);
+    lines.push("");
+  }
+
+  return lines.join("\n");
+}
+
+function getSystemInfo(): string {
+  const cpu = cpus()[0];
+  const cpuModel = cpu?.model || "Unknown CPU";
+  const cpuCores = cpus().length;
+  const totalMemoryGB = (totalmem() / (1024 * 1024 * 1024)).toFixed(0);
+  const os = platform();
+  const osArch = arch();
+  const osRelease = release();
+  const osName = os === "darwin" ? "macOS" : os === "win32" ? "Windows" : os === "linux" ? "Linux" : os;
+
+  return `## System
+
+| Property | Value |
+|----------|-------|
+| OS | ${osName} ${osRelease} (${osArch}) |
+| CPU | ${cpuModel} |
+| Cores | ${cpuCores} |
+| Memory | ${totalMemoryGB} GB |`;
+}
+
+function generateRunSection(): string {
+  return `## Run Benchmarks
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) - JavaScript runtime and package manager
+
+### Steps
+
+1. Clone the repository:
+
+\`\`\`bash
+git clone https://github.com/yuku-toolchain/ecmascript-parser-benchmark-js.git
+cd ecmascript-parser-benchmark-js
+\`\`\`
+
+2. Install dependencies:
+
+\`\`\`bash
+bun install
+\`\`\`
+
+3. Run benchmarks:
+
+\`\`\`bash
+bun bench
+\`\`\`
+
+This will run benchmarks on all test files. Results are saved to the \`result/\` directory.`;
+}
+
+function generateMethodologySection(): string {
+  return `## Methodology
+
+Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinybench) with warmup iterations followed by multiple timed runs. Each run measures the time to parse the source text into an AST. Source files are read from disk once and kept in memory for all iterations.
+
+Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.`;
+}
+
+async function main() {
+  const readme = [
+    "# ECMAScript Parser Benchmark (JavaScript)",
+    "",
+    "Benchmark ECMAScript parsers running in JavaScript, including pure JS parsers and native parsers via NAPI bindings.",
+    "",
+    getSystemInfo(),
+    "",
+    generateParsersSection(),
+    await generateBenchmarksSection(),
+    generateRunSection(),
+    "",
+    generateMethodologySection(),
+  ].join("\n");
+
+  await writeFile(join(process.cwd(), "README.md"), readme);
+  console.log("README.md generated successfully!");
+}
+
+main().catch(console.error);
