@@ -47,12 +47,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 49.42 ms | 46.85 ms | 61.71 ms |
-| Acorn | 112.81 ms | 103.48 ms | 129.08 ms |
-| Babel | 154.58 ms | 125.18 ms | 189.79 ms |
-| Oxc | 232.35 ms | 226.32 ms | 242.29 ms |
-| Hermes | 238.61 ms | 215.66 ms | 270.83 ms |
-| SWC | 414.53 ms | 399.10 ms | 506.23 ms |
+| Yuku | 49.35 ms | 46.91 ms | 62.76 ms |
+| Acorn | 113.61 ms | 104.67 ms | 132.81 ms |
+| Babel | 157.44 ms | 125.42 ms | 195.53 ms |
+| Oxc | 234.27 ms | 224.67 ms | 252.41 ms |
+| Hermes | 240.09 ms | 215.63 ms | 289.91 ms |
+| SWC | 418.75 ms | 400.20 ms | 519.28 ms |
 
 ### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
 
@@ -62,12 +62,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 14.41 ms | 13.77 ms | 19.51 ms |
-| Acorn | 25.56 ms | 24.28 ms | 30.30 ms |
-| Babel | 30.31 ms | 24.46 ms | 44.19 ms |
-| Oxc | 43.03 ms | 41.94 ms | 47.66 ms |
-| Hermes | 54.38 ms | 50.73 ms | 65.01 ms |
-| SWC | 75.84 ms | 74.35 ms | 80.75 ms |
+| Yuku | 14.34 ms | 13.72 ms | 19.92 ms |
+| Acorn | 25.47 ms | 24.03 ms | 32.24 ms |
+| Babel | 29.53 ms | 24.39 ms | 38.67 ms |
+| Oxc | 43.25 ms | 42.24 ms | 48.53 ms |
+| Hermes | 55.25 ms | 49.99 ms | 66.27 ms |
+| SWC | 76.35 ms | 74.83 ms | 80.37 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -77,12 +77,12 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.35 ms | 0.33 ms | 4.75 ms |
-| Acorn | 0.84 ms | 0.79 ms | 3.79 ms |
-| Babel | 0.90 ms | 0.80 ms | 6.25 ms |
-| Oxc | 1.34 ms | 1.28 ms | 2.31 ms |
-| Hermes | 1.65 ms | 1.54 ms | 6.12 ms |
-| SWC | 2.49 ms | 2.40 ms | 3.64 ms |
+| Yuku | 0.35 ms | 0.33 ms | 4.61 ms |
+| Acorn | 0.80 ms | 0.77 ms | 2.21 ms |
+| Babel | 0.92 ms | 0.80 ms | 3.95 ms |
+| Oxc | 1.35 ms | 1.29 ms | 3.16 ms |
+| Hermes | 1.63 ms | 1.52 ms | 5.92 ms |
+| SWC | 2.56 ms | 2.44 ms | 5.21 ms |
 
 ## Run Benchmarks
 
@@ -118,3 +118,5 @@ This will run benchmarks on all test files. Results are saved to the `result/` d
 Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinybench) with warmup iterations followed by multiple timed runs. Each run measures the time to parse the source text into an AST. Source files are read from disk once and kept in memory for all iterations.
 
 Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
+
+**A note on Oxc:** Oxc has an `experimentalRawTransfer` option that makes `oxc-parser` roughly 2-3x faster than the results shown above. However, it is currently experimental and comes with significant limitations: it only works in Node.js (not Bun, Deno, etc.), and it allocates gigabytes of memory upfront for a single parse, leading to out-of-memory errors on many systems and failures when parsing files in parallel.
