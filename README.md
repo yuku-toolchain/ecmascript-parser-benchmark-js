@@ -7,9 +7,9 @@ Benchmark ECMAScript parsers running in JavaScript, including pure JS parsers an
 | Property | Value |
 |----------|-------|
 | OS | macOS 24.6.0 (arm64) |
-| CPU | Apple M4 Pro (Virtual) |
-| Cores | 6 |
-| Memory | 14 GB |
+| CPU | Apple M3 |
+| Cores | 8 |
+| Memory | 16 GB |
 
 ## Parsers
 
@@ -95,8 +95,8 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yuku-toolchain/ecmascript-parser-benchmark-js.git
-cd ecmascript-parser-benchmark-js
+git clone https://github.com/yuku-toolchain/parser-benchmark-js.git
+cd parser-benchmark-js
 ```
 
 2. Install dependencies:
