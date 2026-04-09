@@ -264,7 +264,7 @@ async function generateBenchmarksSection(): Promise<string> {
 
     const chartPath = await generateChart(entries, fileKey);
     if (chartPath) {
-      lines.push(`![${fileName} Performance](${chartPath})`);
+      lines.push(`![Bar chart comparing npm parser speeds for ${fileName}](${chartPath})`);
       lines.push("");
     }
 
@@ -320,8 +320,8 @@ function generateRunSection(): string {
 1. Clone the repository:
 
 \`\`\`bash
-git clone https://github.com/yuku-toolchain/parser-benchmark-js.git
-cd parser-benchmark-js
+git clone https://github.com/yuku-toolchain/ecmascript-parser-benchmark-js.git
+cd ecmascript-parser-benchmark-js
 \`\`\`
 
 2. Install dependencies:
@@ -351,9 +351,9 @@ Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so m
 
 async function main() {
   const readme = [
-    "# ECMAScript Parser Benchmark (JavaScript)",
+    "# ECMAScript Parser Benchmark (npm)",
     "",
-    "Benchmark ECMAScript parsers running in JavaScript, including pure JS parsers and native parsers via NAPI bindings.",
+    "Benchmarks for ECMAScript parsers available as npm packages, including pure JavaScript parsers and native parsers (Zig, Rust) via NAPI bindings.",
     "",
     getSystemInfo(),
     "",
