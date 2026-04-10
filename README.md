@@ -7,9 +7,9 @@ Benchmarks for ECMAScript parsers available as npm packages, including pure Java
 | Property | Value |
 |----------|-------|
 | OS | macOS 24.6.0 (arm64) |
-| CPU | Apple M3 |
-| Cores | 8 |
-| Memory | 16 GB |
+| CPU | Apple M4 Pro (Virtual) |
+| Cores | 6 |
+| Memory | 14 GB |
 
 ## Parsers
 
@@ -43,11 +43,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 48.74 ms | 46.72 ms | 57.37 ms |
-| Acorn | 115.62 ms | 103.66 ms | 145.07 ms |
-| Babel | 156.36 ms | 127.92 ms | 198.87 ms |
-| Oxc | 242.98 ms | 226.74 ms | 279.49 ms |
-| SWC | 410.32 ms | 393.61 ms | 478.46 ms |
+| Yuku | 54.33 ms | 48.18 ms | 60.40 ms |
+| Acorn | 126.43 ms | 116.55 ms | 135.60 ms |
+| Babel | 181.66 ms | 152.60 ms | 230.76 ms |
+| Oxc | 230.52 ms | 223.13 ms | 248.74 ms |
+| SWC | 419.01 ms | 395.78 ms | 477.50 ms |
 
 ### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
 
@@ -57,11 +57,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 14.61 ms | 13.82 ms | 23.12 ms |
-| Acorn | 25.53 ms | 23.99 ms | 30.27 ms |
-| Babel | 32.60 ms | 25.55 ms | 57.18 ms |
-| Oxc | 43.68 ms | 42.47 ms | 48.60 ms |
-| SWC | 75.41 ms | 74.08 ms | 79.53 ms |
+| Yuku | 16.15 ms | 13.82 ms | 20.26 ms |
+| Acorn | 28.56 ms | 25.04 ms | 34.07 ms |
+| Babel | 39.40 ms | 33.64 ms | 46.17 ms |
+| Oxc | 45.04 ms | 42.57 ms | 47.29 ms |
+| SWC | 80.46 ms | 75.21 ms | 85.33 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -71,11 +71,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.35 ms | 0.33 ms | 4.91 ms |
-| Acorn | 0.81 ms | 0.76 ms | 2.05 ms |
-| Babel | 0.95 ms | 0.82 ms | 3.80 ms |
-| Oxc | 1.34 ms | 1.29 ms | 2.38 ms |
-| SWC | 2.54 ms | 2.44 ms | 3.96 ms |
+| Yuku | 0.38 ms | 0.32 ms | 4.08 ms |
+| Acorn | 0.89 ms | 0.77 ms | 4.31 ms |
+| Babel | 1.27 ms | 0.81 ms | 5.11 ms |
+| Oxc | 1.40 ms | 1.30 ms | 4.99 ms |
+| SWC | 2.51 ms | 2.38 ms | 6.07 ms |
 
 ## Run Benchmarks
 
