@@ -20,12 +20,6 @@ const PARSERS = {
       "A JavaScript compiler and parser used by the Babel toolchain.",
     url: "https://github.com/babel/babel/tree/main/packages/babel-parser",
   },
-  hermes: {
-    name: "Hermes",
-    description:
-      "A JavaScript engine optimized for React Native, with a standalone parser available via WASM.",
-    url: "https://github.com/nicolo-ribaudo/hermes-parser",
-  },
   oxc: {
     name: "Oxc",
     description:
@@ -49,7 +43,6 @@ const PARSERS = {
 const CHART_COLORS: Record<string, string> = {
   acorn: "#4CC9F0",
   babel: "#7209B7",
-  hermes: "#118AB2",
   oxc: "#F72585",
   swc: "#3A86FF",
   yuku: "#FF6B35",
@@ -58,7 +51,6 @@ const CHART_COLORS: Record<string, string> = {
 const NAME_TO_KEY: Record<string, string> = {
   Acorn: "acorn",
   Babel: "babel",
-  Hermes: "hermes",
   Oxc: "oxc",
   SWC: "swc",
   Yuku: "yuku",

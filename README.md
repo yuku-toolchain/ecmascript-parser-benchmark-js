@@ -7,9 +7,9 @@ Benchmarks for ECMAScript parsers available as npm packages, including pure Java
 | Property | Value |
 |----------|-------|
 | OS | macOS 24.6.0 (arm64) |
-| CPU | Apple M4 Pro (Virtual) |
-| Cores | 6 |
-| Memory | 14 GB |
+| CPU | Apple M3 |
+| Cores | 8 |
+| Memory | 16 GB |
 
 ## Parsers
 
@@ -20,10 +20,6 @@ A tiny, fast JavaScript parser, written completely in JavaScript.
 ### [Babel](https://github.com/babel/babel/tree/main/packages/babel-parser)
 
 A JavaScript compiler and parser used by the Babel toolchain.
-
-### [Hermes](https://github.com/nicolo-ribaudo/hermes-parser)
-
-A JavaScript engine optimized for React Native, with a standalone parser available via WASM.
 
 ### [Oxc](https://github.com/oxc-project/oxc)
 
@@ -50,7 +46,6 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 | Yuku | 48.74 ms | 46.72 ms | 57.37 ms |
 | Acorn | 115.62 ms | 103.66 ms | 145.07 ms |
 | Babel | 156.36 ms | 127.92 ms | 198.87 ms |
-| Hermes | 242.23 ms | 221.87 ms | 287.75 ms |
 | Oxc | 242.98 ms | 226.74 ms | 279.49 ms |
 | SWC | 410.32 ms | 393.61 ms | 478.46 ms |
 
@@ -66,7 +61,6 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 | Acorn | 25.53 ms | 23.99 ms | 30.27 ms |
 | Babel | 32.60 ms | 25.55 ms | 57.18 ms |
 | Oxc | 43.68 ms | 42.47 ms | 48.60 ms |
-| Hermes | 54.84 ms | 50.12 ms | 73.19 ms |
 | SWC | 75.41 ms | 74.08 ms | 79.53 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
@@ -81,7 +75,6 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 | Acorn | 0.81 ms | 0.76 ms | 2.05 ms |
 | Babel | 0.95 ms | 0.82 ms | 3.80 ms |
 | Oxc | 1.34 ms | 1.29 ms | 2.38 ms |
-| Hermes | 1.62 ms | 1.52 ms | 5.75 ms |
 | SWC | 2.54 ms | 2.44 ms | 3.96 ms |
 
 ## Run Benchmarks

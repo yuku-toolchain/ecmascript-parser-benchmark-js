@@ -5,7 +5,6 @@ import * as acorn from "acorn";
 import * as babel from "@babel/parser";
 import * as oxc from "oxc-parser";
 import swc from "@swc/core";
-import { parse as hermesParse } from "hermes-parser";
 import { parseSync as yukuParseSync } from "yuku-parser";
 
 const FILES: Record<string, string> = {
@@ -40,10 +39,6 @@ async function benchFile(fileKey: string, filePath: string): Promise<FileResult>
 
   bench.add("Babel", () => {
     const { program: _ } = babel.parse(source, { sourceType: "module" });
-  });
-
-  bench.add("Hermes", () => {
-    const { body: _ } = hermesParse(source, { sourceType: "module" });
   });
 
   bench.add("Oxc", () => {
