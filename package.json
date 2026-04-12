@@ -18,12 +18,12 @@
     "chartjs-node-canvas": "^5.0.0",
     "oxc-parser": "^0.124.0",
     "tinybench": "^6.0.0",
-    "yuku-parser": "^0.4.4"
+    "yuku-parser": "^0.4.6"
   },
   "devDependencies": {
     "@types/bun": "^1.3.12",
     "@types/node": "^25.6.0",
-    "@typescript/native-preview": "^7.0.0-dev.20260411.1"
+    "@typescript/native-preview": "^7.0.0-dev.20260412.1"
   },
   "peerDependencies": {
     "typescript": "^6.0.2"
