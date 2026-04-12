@@ -5,7 +5,7 @@ import * as acorn from "acorn";
 import * as babel from "@babel/parser";
 import * as oxc from "oxc-parser";
 import swc from "@swc/core";
-import { parseSync as yukuParseSync } from "yuku-parser";
+import { parse as yukuParseSync } from "yuku-parser";
 
 const FILES: Record<string, string> = {
   typescript: "files/typescript.js",
