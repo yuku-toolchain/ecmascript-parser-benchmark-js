@@ -43,11 +43,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 52.72 ms | 47.56 ms | 59.55 ms |
-| Acorn | 122.79 ms | 112.97 ms | 146.34 ms |
-| Babel | 181.47 ms | 150.49 ms | 214.85 ms |
-| Oxc | 229.76 ms | 223.86 ms | 239.39 ms |
-| SWC | 413.46 ms | 394.82 ms | 466.38 ms |
+| Yuku | 53.86 ms | 48.73 ms | 61.72 ms |
+| Acorn | 118.19 ms | 108.98 ms | 130.80 ms |
+| Babel | 175.97 ms | 145.26 ms | 214.71 ms |
+| Oxc | 222.85 ms | 216.29 ms | 231.65 ms |
+| SWC | 409.80 ms | 385.50 ms | 456.10 ms |
 
 ### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
 
@@ -57,11 +57,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 16.19 ms | 13.91 ms | 20.18 ms |
-| Acorn | 28.31 ms | 24.86 ms | 32.03 ms |
-| Babel | 39.47 ms | 33.48 ms | 45.60 ms |
-| Oxc | 45.17 ms | 42.86 ms | 47.25 ms |
-| SWC | 77.98 ms | 74.42 ms | 83.10 ms |
+| Yuku | 15.99 ms | 13.26 ms | 19.78 ms |
+| Acorn | 27.64 ms | 24.16 ms | 32.07 ms |
+| Babel | 37.90 ms | 31.90 ms | 44.69 ms |
+| Oxc | 44.33 ms | 41.81 ms | 49.35 ms |
+| SWC | 75.38 ms | 72.08 ms | 78.92 ms |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -71,11 +71,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.38 ms | 0.33 ms | 4.00 ms |
-| Acorn | 0.89 ms | 0.76 ms | 5.21 ms |
-| Babel | 1.26 ms | 0.82 ms | 4.97 ms |
-| Oxc | 1.37 ms | 1.30 ms | 4.71 ms |
-| SWC | 2.55 ms | 2.40 ms | 7.90 ms |
+| Yuku | 0.37 ms | 0.30 ms | 3.91 ms |
+| Acorn | 0.85 ms | 0.71 ms | 4.44 ms |
+| Babel | 1.18 ms | 0.73 ms | 4.90 ms |
+| Oxc | 1.35 ms | 1.18 ms | 5.35 ms |
+| SWC | 2.59 ms | 2.20 ms | 7.19 ms |
 
 ## Run Benchmarks
 
