@@ -37,13 +37,19 @@ async function benchFile(fileKey: string, file: { path: string; lang: Lang }): P
 
   const bench = new Bench({ time: 5000, warmupTime: 1000 });
 
-  bench.add("Acorn", () => {
-    const { body: _ } = acorn.parse(source, { ecmaVersion: "latest", sourceType: "module" });
-  });
+  if (!isTsx) {
+    bench.add("Acorn", () => {
+      const { body: _ } = acorn.parse(source, { ecmaVersion: "latest", sourceType: "module" });
+    });
+  }
 
   const babelPlugins: babel.ParserPlugin[] = isTsx ? ["typescript", "jsx"] : [];
   bench.add("Babel", () => {
-    const { program: _ } = babel.parse(source, { sourceType: "module", plugins: babelPlugins });
+    const { program: _ } = babel.parse(source, {
+      sourceType: "module",
+      plugins: babelPlugins,
+      errorRecovery: isTsx,
+    });
   });
 
   const oxcFilename = isTsx ? "bench.tsx" : "bench.js";
