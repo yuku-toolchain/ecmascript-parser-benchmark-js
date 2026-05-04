@@ -5,12 +5,15 @@ import * as acorn from "acorn";
 import * as babel from "@babel/parser";
 import * as oxc from "oxc-parser";
 import swc from "@swc/core";
+import type { ParseOptions as SwcParseOptions } from "@swc/types";
 import { parse as yukuParseSync } from "yuku-parser";
 
-const FILES: Record<string, string> = {
-  typescript: "files/typescript.js",
-  three: "files/three.js",
-  react: "files/react.js",
+type Lang = "js" | "tsx";
+
+const FILES: Record<string, { path: string; lang: Lang }> = {
+  typescript: { path: "files/typescript.js", lang: "js" },
+  calcom: { path: "files/calcom.tsx", lang: "tsx" },
+  react: { path: "files/react.js", lang: "js" },
 };
 
 interface BenchResult {
@@ -28,8 +31,9 @@ interface FileResult {
   results: BenchResult[];
 }
 
-async function benchFile(fileKey: string, filePath: string): Promise<FileResult> {
-  const source = await readFile(join(process.cwd(), filePath), "utf-8");
+async function benchFile(fileKey: string, file: { path: string; lang: Lang }): Promise<FileResult> {
+  const source = await readFile(join(process.cwd(), file.path), "utf-8");
+  const isTsx = file.lang === "tsx";
 
   const bench = new Bench({ time: 5000, warmupTime: 1000 });
 
@@ -37,20 +41,26 @@ async function benchFile(fileKey: string, filePath: string): Promise<FileResult>
     const { body: _ } = acorn.parse(source, { ecmaVersion: "latest", sourceType: "module" });
   });
 
+  const babelPlugins: babel.ParserPlugin[] = isTsx ? ["typescript", "jsx"] : [];
   bench.add("Babel", () => {
-    const { program: _ } = babel.parse(source, { sourceType: "module" });
+    const { program: _ } = babel.parse(source, { sourceType: "module", plugins: babelPlugins });
   });
 
+  const oxcFilename = isTsx ? "bench.tsx" : "bench.js";
   bench.add("Oxc", () => {
-    const { program: _ } = oxc.parseSync("bench.js", source);
+    const { program: _ } = oxc.parseSync(oxcFilename, source);
   });
 
+  const swcSyntax: SwcParseOptions = isTsx
+    ? { syntax: "typescript", tsx: true }
+    : { syntax: "ecmascript" };
   bench.add("SWC", () => {
-    const { body: _ } = swc.parseSync(source, { syntax: "ecmascript" });
+    const { body: _ } = swc.parseSync(source, swcSyntax);
   });
 
+  const yukuOptions = isTsx ? { lang: "tsx" as const } : undefined;
   bench.add("Yuku", () => {
-    const { program: _ } = yukuParseSync(source);
+    const { program: _ } = yukuParseSync(source, yukuOptions);
   });
 
   console.log(`\nBenchmarking ${fileKey}...`);
@@ -83,8 +93,8 @@ async function main() {
 
   await mkdir(join(process.cwd(), "result"), { recursive: true });
 
-  for (const [key, path] of filesToBench) {
-    const result = await benchFile(key, path);
+  for (const [key, file] of filesToBench) {
+    const result = await benchFile(key, file);
     await writeFile(
       join(process.cwd(), "result", `${key}.json`),
       JSON.stringify(result, null, 2),

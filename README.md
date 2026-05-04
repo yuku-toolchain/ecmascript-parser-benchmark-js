@@ -43,25 +43,25 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 54.66 ms | 49.92 ms | 105.08 ms |
-| Acorn | 148.22 ms | 136.31 ms | 191.93 ms |
-| Babel | 190.65 ms | 147.59 ms | 288.84 ms |
-| Oxc | 281.49 ms | 264.23 ms | 352.88 ms |
-| SWC | 531.65 ms | 474.05 ms | 721.29 ms |
+| Yuku | 59.01 ms | 54.54 ms | 91.61 ms |
+| Acorn | 143.55 ms | 125.15 ms | 213.91 ms |
+| Babel | 215.56 ms | 169.71 ms | 261.55 ms |
+| Oxc | 314.21 ms | 275.49 ms | 492.99 ms |
+| SWC | 518.38 ms | 465.16 ms | 751.81 ms |
 
-### [three.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/three.js)
+### [calcom.tsx](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/calcom.tsx)
 
-**File size:** 1.96 MB
+**File size:** 1.01 MB
 
-![Bar chart comparing npm parser speeds for three.js](charts/three.png)
+![Bar chart comparing npm parser speeds for calcom.tsx](charts/calcom.png)
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 17.26 ms | 15.77 ms | 22.12 ms |
-| Acorn | 32.06 ms | 29.02 ms | 51.93 ms |
-| Babel | 38.88 ms | 29.98 ms | 64.64 ms |
-| Oxc | 52.46 ms | 49.46 ms | 73.41 ms |
-| SWC | 90.32 ms | 86.55 ms | 110.35 ms |
+| Yuku | 11.87 ms | 10.55 ms | 29.94 ms |
+| Oxc | 60.22 ms | 54.83 ms | 103.79 ms |
+| SWC | 76.15 ms | 68.43 ms | 125.85 ms |
+| Acorn | Failed to parse | - | - |
+| Babel | Failed to parse | - | - |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -71,11 +71,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max |
 |--------|------|-----|-----|
-| Yuku | 0.40 ms | 0.35 ms | 7.51 ms |
-| Acorn | 1.08 ms | 0.95 ms | 15.79 ms |
-| Babel | 1.38 ms | 0.93 ms | 5.86 ms |
-| Oxc | 1.57 ms | 1.50 ms | 5.96 ms |
-| SWC | 2.91 ms | 2.75 ms | 7.44 ms |
+| Yuku | 0.45 ms | 0.38 ms | 4.66 ms |
+| Acorn | 1.02 ms | 0.93 ms | 15.39 ms |
+| Babel | 1.46 ms | 0.99 ms | 5.34 ms |
+| Oxc | 1.56 ms | 1.49 ms | 5.32 ms |
+| SWC | 2.89 ms | 2.75 ms | 6.09 ms |
 
 ## Run Benchmarks
 
