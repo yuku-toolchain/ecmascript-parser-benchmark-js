@@ -43,11 +43,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **50.05 ms** | **44.91 ms** | **94.55 ms** | **19.98 ops/s** | **baseline** |
-| Acorn | 145.62 ms | 135.62 ms | 164.76 ms | 6.87 ops/s | 2.91× slower |
-| Babel | 190.47 ms | 150.04 ms | 245.37 ms | 5.25 ops/s | 3.81× slower |
-| Oxc | 268.08 ms | 259.26 ms | 298.46 ms | 3.73 ops/s | 5.36× slower |
-| SWC | 496.46 ms | 471.37 ms | 606.32 ms | 2.01 ops/s | 9.92× slower |
+| **Yuku** | **49.83 ms** | **45.03 ms** | **94.34 ms** | **20.07 ops/s** | **baseline** |
+| Acorn | 141.46 ms | 133.95 ms | 155.30 ms | 7.07 ops/s | 2.84× slower |
+| Babel | 188.72 ms | 147.60 ms | 231.37 ms | 5.30 ops/s | 3.79× slower |
+| Oxc | 267.53 ms | 260.12 ms | 336.37 ms | 3.74 ops/s | 5.37× slower |
+| SWC | 482.88 ms | 464.14 ms | 537.99 ms | 2.07 ops/s | 9.69× slower |
 
 ### [checker.ts](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/checker.ts)
 
@@ -57,10 +57,10 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **17.68 ms** | **16.34 ms** | **38.28 ms** | **56.56 ops/s** | **baseline** |
-| Babel | 79.12 ms | 64.28 ms | 98.73 ms | 12.64 ops/s | 4.48× slower |
-| Oxc | 85.17 ms | 80.89 ms | 142.72 ms | 11.74 ops/s | 4.82× slower |
-| SWC | 160.03 ms | 154.76 ms | 189.09 ms | 6.25 ops/s | 9.05× slower |
+| **Yuku** | **17.63 ms** | **16.42 ms** | **37.98 ms** | **56.73 ops/s** | **baseline** |
+| Babel | 78.16 ms | 63.84 ms | 99.74 ms | 12.79 ops/s | 4.43× slower |
+| Oxc | 83.08 ms | 80.93 ms | 88.35 ms | 12.04 ops/s | 4.71× slower |
+| SWC | 158.29 ms | 154.36 ms | 191.16 ms | 6.32 ops/s | 8.98× slower |
 | Acorn | Failed to parse | - | - | - | - |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
@@ -71,11 +71,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **0.34 ms** | **0.31 ms** | **6.34 ms** | **2915.18 ops/s** | **baseline** |
-| Acorn | 0.99 ms | 0.97 ms | 1.94 ms | 1006.72 ops/s | 2.90× slower |
-| Babel | 1.44 ms | 1.16 ms | 5.54 ms | 695.84 ops/s | 4.19× slower |
-| Oxc | 1.59 ms | 1.48 ms | 17.05 ms | 630.73 ops/s | 4.62× slower |
-| SWC | 3.04 ms | 2.81 ms | 18.43 ms | 328.97 ops/s | 8.86× slower |
+| **Yuku** | **0.33 ms** | **0.31 ms** | **5.62 ms** | **3019.19 ops/s** | **baseline** |
+| Acorn | 0.98 ms | 0.95 ms | 2.05 ms | 1022.73 ops/s | 2.95× slower |
+| Babel | 1.30 ms | 1.17 ms | 5.80 ms | 767.58 ops/s | 3.93× slower |
+| Oxc | 1.53 ms | 1.48 ms | 2.93 ms | 653.91 ops/s | 4.62× slower |
+| SWC | 2.88 ms | 2.81 ms | 5.41 ms | 347.57 ops/s | 8.69× slower |
 
 ## Run Benchmarks
 
