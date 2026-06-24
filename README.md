@@ -43,11 +43,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **49.83 ms** | **45.03 ms** | **94.34 ms** | **20.07 ops/s** | **baseline** |
-| Acorn | 141.46 ms | 133.95 ms | 155.30 ms | 7.07 ops/s | 2.84× slower |
-| Babel | 188.72 ms | 147.60 ms | 231.37 ms | 5.30 ops/s | 3.79× slower |
-| Oxc | 267.53 ms | 260.12 ms | 336.37 ms | 3.74 ops/s | 5.37× slower |
-| SWC | 482.88 ms | 464.14 ms | 537.99 ms | 2.07 ops/s | 9.69× slower |
+| **Yuku** | **49.03 ms** | **45.02 ms** | **102.32 ms** | **20.40 ops/s** | **baseline** |
+| Acorn | 133.25 ms | 123.62 ms | 148.70 ms | 7.50 ops/s | 2.72× slower |
+| Babel | 184.12 ms | 152.91 ms | 224.53 ms | 5.43 ops/s | 3.76× slower |
+| Oxc | 265.42 ms | 261.03 ms | 275.68 ms | 3.77 ops/s | 5.41× slower |
+| SWC | 480.21 ms | 465.34 ms | 565.78 ms | 2.08 ops/s | 9.79× slower |
 
 ### [checker.ts](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/checker.ts)
 
@@ -57,10 +57,10 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **17.63 ms** | **16.42 ms** | **37.98 ms** | **56.73 ops/s** | **baseline** |
-| Babel | 78.16 ms | 63.84 ms | 99.74 ms | 12.79 ops/s | 4.43× slower |
-| Oxc | 83.08 ms | 80.93 ms | 88.35 ms | 12.04 ops/s | 4.71× slower |
-| SWC | 158.29 ms | 154.36 ms | 191.16 ms | 6.32 ops/s | 8.98× slower |
+| **Yuku** | **17.66 ms** | **16.42 ms** | **37.12 ms** | **56.63 ops/s** | **baseline** |
+| Babel | 80.09 ms | 65.20 ms | 94.96 ms | 12.49 ops/s | 4.54× slower |
+| Oxc | 82.93 ms | 81.01 ms | 90.72 ms | 12.06 ops/s | 4.70× slower |
+| SWC | 157.58 ms | 154.19 ms | 197.62 ms | 6.35 ops/s | 8.92× slower |
 | Acorn | Failed to parse | - | - | - | - |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
@@ -71,11 +71,11 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 | Parser | Mean | Min | Max | Ops/sec | Relative |
 |--------|------|-----|-----|---------|----------|
-| **Yuku** | **0.33 ms** | **0.31 ms** | **5.62 ms** | **3019.19 ops/s** | **baseline** |
-| Acorn | 0.98 ms | 0.95 ms | 2.05 ms | 1022.73 ops/s | 2.95× slower |
-| Babel | 1.30 ms | 1.17 ms | 5.80 ms | 767.58 ops/s | 3.93× slower |
-| Oxc | 1.53 ms | 1.48 ms | 2.93 ms | 653.91 ops/s | 4.62× slower |
-| SWC | 2.88 ms | 2.81 ms | 5.41 ms | 347.57 ops/s | 8.69× slower |
+| **Yuku** | **0.33 ms** | **0.31 ms** | **4.77 ms** | **3038.30 ops/s** | **baseline** |
+| Acorn | 0.98 ms | 0.95 ms | 4.63 ms | 1024.94 ops/s | 2.96× slower |
+| Babel | 1.35 ms | 1.14 ms | 3.45 ms | 738.32 ops/s | 4.12× slower |
+| Oxc | 1.52 ms | 1.48 ms | 2.80 ms | 659.00 ops/s | 4.61× slower |
+| SWC | 2.86 ms | 2.79 ms | 6.95 ms | 349.06 ops/s | 8.70× slower |
 
 ## Run Benchmarks
 
@@ -114,6 +114,6 @@ Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so m
 
 **Why is Oxc slower than Babel?** Oxc's npm package serializes the AST to a JSON string on the Rust side, then calls `JSON.parse` on the JavaScript side to make it available. This overhead makes it slower in end-to-end benchmarks, even though Oxc is very fast at raw parsing speed. If you only call the `parse` function without accessing the result, Oxc appears faster than Babel because the `program` field is a getter that defers `JSON.parse` until access. The benchmarks above measure the time to actually obtain the full AST for all parsers.
 
-Oxc also has an `experimentalRawTransfer` option that makes `oxc-parser` roughly 2-3x faster than the results shown above. However, it is currently experimental and comes with significant limitations: it only works in Node.js (not Bun, Deno, etc.), and it allocates gigabytes of memory upfront for a single parse, leading to out-of-memory errors on many systems and failures when parsing files in parallel.
+Oxc also has an `experimentalRawTransfer` option that makes `oxc-parser` roughly 2-3x faster than the results shown above. In practice it is unusable today. It only works in Node.js, so Bun and Deno are out, and it allocates gigabytes of memory upfront for a single parse. That blows up with out-of-memory errors on many systems and falls apart when parsing files in parallel.
 
 **Why is Yuku fast?** Yuku's AST is designed from the ground up to be transfer-friendly: flat, compact, and near-binary. Instead of serializing to JSON and parsing it back, the AST produced by the Zig parser can be passed to JavaScript with minimal conversion. Zig's comptime makes this safe by design. There are no multi-gigabyte allocations, only the memory the source being parsed actually needs.
