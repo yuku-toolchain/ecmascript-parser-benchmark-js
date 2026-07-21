@@ -77,7 +77,9 @@ interface BenchResult {
   max: number;
   median: number;
   stddev: number;
+  rme?: number;
   samples: number;
+  runs?: number;
 }
 
 interface FileResult {
@@ -99,9 +101,13 @@ function formatTime(ms: number): string {
   return `${ms.toFixed(2)} ms`;
 }
 
-function formatOps(meanMs: number): string {
-  const ops = 1000 / meanMs;
+function formatOps(medianMs: number): string {
+  const ops = 1000 / medianMs;
   return `${ops.toFixed(2)} ops/s`;
+}
+
+function formatRme(rme: number | undefined): string {
+  return rme != null ? `±${rme.toFixed(2)}%` : "-";
 }
 
 async function readBenchmarkResults(fileKey: FileKey): Promise<FileResult> {
@@ -122,7 +128,7 @@ function getParserEntries(data: FileResult): ParserEntry[] {
   }
 
   entries.sort((a, b) => {
-    if (a.result && b.result) return a.result.mean - b.result.mean;
+    if (a.result && b.result) return a.result.median - b.result.median;
     if (a.result && !b.result) return -1;
     if (!a.result && b.result) return 1;
     return 0;
@@ -136,10 +142,10 @@ async function generateChart(entries: ParserEntry[], chartName: string): Promise
   if (data.length === 0) return "";
 
   const labels = data.map((e) => e.name);
-  const meanData = data.map((e) => e.result!.mean);
+  const medianData = data.map((e) => e.result!.median);
   const colors = data.map((e) => CHART_COLORS[e.key] ?? "#888888");
 
-  const maxTime = Math.max(...meanData);
+  const maxTime = Math.max(...medianData);
   const niceSteps = [10, 20, 25, 50, 100, 200, 250, 500];
   const rawStep = maxTime / 4;
   const step = niceSteps.find((s) => s >= rawStep) || Math.ceil(rawStep / 100) * 100;
@@ -160,7 +166,7 @@ async function generateChart(entries: ParserEntry[], chartName: string): Promise
       labels,
       datasets: [
         {
-          data: meanData,
+          data: medianData,
           backgroundColor: colors,
           borderWidth: 0,
           borderRadius: 0,
@@ -229,23 +235,25 @@ function generateTable(entries: ParserEntry[]): string {
 
   const fastest = entries.find((e) => e.result != null)?.result ?? null;
 
-  lines.push("| Parser | Mean | Min | Max | Ops/sec | Relative |");
-  lines.push("|--------|------|-----|-----|---------|----------|");
+  lines.push("| Parser | Median | RME | Mean | Min | Max | Ops/sec | Relative |");
+  lines.push("|--------|--------|-----|------|-----|-----|---------|----------|");
 
   for (const { name, result } of entries) {
     if (!result) {
-      lines.push(`| ${name} | Failed to parse | - | - | - | - |`);
+      lines.push(`| ${name} | Failed to parse | - | - | - | - | - | - |`);
       continue;
     }
     const isFastest = result === fastest;
-    const ratio = fastest ? result.mean / fastest.mean : 1;
+    const ratio = fastest ? result.median / fastest.median : 1;
     const relative = isFastest ? "baseline" : `${ratio.toFixed(2)}× slower`;
     const cells = [
       name,
+      formatTime(result.median),
+      formatRme(result.rme),
       formatTime(result.mean),
       formatTime(result.min),
       formatTime(result.max),
-      formatOps(result.mean),
+      formatOps(result.median),
       relative,
     ];
     const row = isFastest ? cells.map((c) => `**${c}**`).join(" | ") : cells.join(" | ");
@@ -345,13 +353,17 @@ bun install
 bun bench
 \`\`\`
 
-This will run benchmarks on all test files. Results are saved to the \`result/\` directory.`;
+This will run benchmarks on all test files. Results are saved to the \`result/\` directory.
+
+Benchmark duration is configurable via environment variables: \`BENCH_TIME\` (timed duration per run in ms, default 10000), \`BENCH_WARMUP\` (warmup duration in ms, default 2000), and \`BENCH_RUNS\` (independent runs per parser, default 3). For the most stable numbers, run on AC power with no other applications running.`;
 }
 
 function generateMethodologySection(): string {
   return `## Methodology
 
 Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinybench) with warmup iterations followed by multiple timed runs. Each run measures the time to parse the source text into an AST. Source files are read from disk once and kept in memory for all iterations.
+
+To keep results stable and fair, every parser × file combination runs in its own freshly spawned process, so JIT state and GC pressure from one parser never affect another. Each combination is benchmarked in multiple independent runs (3 by default), and the reported median is the median across those runs — a statistic that is robust to GC pauses, OS scheduling blips, and other outliers. The RME column shows the relative margin of error (99% confidence) within a run; differences between parsers smaller than their combined margins should be treated as noise.
 
 Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
 

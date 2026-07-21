@@ -41,13 +41,13 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 ![Bar chart comparing npm parser speeds for typescript.js](charts/typescript.png)
 
-| Parser | Mean | Min | Max | Ops/sec | Relative |
-|--------|------|-----|-----|---------|----------|
-| **Yuku** | **49.03 ms** | **45.02 ms** | **102.32 ms** | **20.40 ops/s** | **baseline** |
-| Acorn | 133.25 ms | 123.62 ms | 148.70 ms | 7.50 ops/s | 2.72× slower |
-| Babel | 184.12 ms | 152.91 ms | 224.53 ms | 5.43 ops/s | 3.76× slower |
-| Oxc | 265.42 ms | 261.03 ms | 275.68 ms | 3.77 ops/s | 5.41× slower |
-| SWC | 480.21 ms | 465.34 ms | 565.78 ms | 2.08 ops/s | 9.79× slower |
+| Parser | Median | RME | Mean | Min | Max | Ops/sec | Relative |
+|--------|--------|-----|------|-----|-----|---------|----------|
+| **Yuku** | **45.67 ms** | **±0.51%** | **46.03 ms** | **43.28 ms** | **95.88 ms** | **21.89 ops/s** | **baseline** |
+| Acorn | 141.32 ms | ±2.03% | 143.53 ms | 125.77 ms | 222.34 ms | 7.08 ops/s | 3.09× slower |
+| Babel | 191.83 ms | ±3.51% | 200.92 ms | 147.05 ms | 427.27 ms | 5.21 ops/s | 4.20× slower |
+| Oxc | 264.37 ms | ±1.19% | 269.51 ms | 257.97 ms | 340.27 ms | 3.78 ops/s | 5.79× slower |
+| SWC | 568.49 ms | ±3.45% | 587.12 ms | 460.96 ms | 1201.09 ms | 1.76 ops/s | 12.45× slower |
 
 ### [checker.ts](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/checker.ts)
 
@@ -55,13 +55,13 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 ![Bar chart comparing npm parser speeds for checker.ts](charts/checker.png)
 
-| Parser | Mean | Min | Max | Ops/sec | Relative |
-|--------|------|-----|-----|---------|----------|
-| **Yuku** | **17.66 ms** | **16.42 ms** | **37.12 ms** | **56.63 ops/s** | **baseline** |
-| Babel | 80.09 ms | 65.20 ms | 94.96 ms | 12.49 ops/s | 4.54× slower |
-| Oxc | 82.93 ms | 81.01 ms | 90.72 ms | 12.06 ops/s | 4.70× slower |
-| SWC | 157.58 ms | 154.19 ms | 197.62 ms | 6.35 ops/s | 8.92× slower |
-| Acorn | Failed to parse | - | - | - | - |
+| Parser | Median | RME | Mean | Min | Max | Ops/sec | Relative |
+|--------|--------|-----|------|-----|-----|---------|----------|
+| **Yuku** | **17.36 ms** | **±1.49%** | **17.94 ms** | **15.75 ms** | **102.50 ms** | **57.61 ops/s** | **baseline** |
+| Babel | 78.70 ms | ±1.34% | 78.77 ms | 62.51 ms | 135.98 ms | 12.71 ops/s | 4.53× slower |
+| Oxc | 81.41 ms | ±0.27% | 81.77 ms | 79.69 ms | 85.29 ms | 12.28 ops/s | 4.69× slower |
+| SWC | 152.93 ms | ±0.34% | 157.68 ms | 148.67 ms | 251.15 ms | 6.54 ops/s | 8.81× slower |
+| Acorn | Failed to parse | - | - | - | - | - | - |
 
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
@@ -69,13 +69,13 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 
 ![Bar chart comparing npm parser speeds for react.js](charts/react.png)
 
-| Parser | Mean | Min | Max | Ops/sec | Relative |
-|--------|------|-----|-----|---------|----------|
-| **Yuku** | **0.33 ms** | **0.31 ms** | **4.77 ms** | **3038.30 ops/s** | **baseline** |
-| Acorn | 0.98 ms | 0.95 ms | 4.63 ms | 1024.94 ops/s | 2.96× slower |
-| Babel | 1.35 ms | 1.14 ms | 3.45 ms | 738.32 ops/s | 4.12× slower |
-| Oxc | 1.52 ms | 1.48 ms | 2.80 ms | 659.00 ops/s | 4.61× slower |
-| SWC | 2.86 ms | 2.79 ms | 6.95 ms | 349.06 ops/s | 8.70× slower |
+| Parser | Median | RME | Mean | Min | Max | Ops/sec | Relative |
+|--------|--------|-----|------|-----|-----|---------|----------|
+| **Yuku** | **0.30 ms** | **±0.33%** | **0.32 ms** | **0.28 ms** | **9.62 ms** | **3359.93 ops/s** | **baseline** |
+| Acorn | 0.89 ms | ±0.67% | 0.92 ms | 0.83 ms | 28.19 ms | 1124.60 ops/s | 2.99× slower |
+| Babel | 1.36 ms | ±0.70% | 1.45 ms | 0.98 ms | 22.37 ms | 737.34 ops/s | 4.56× slower |
+| Oxc | 1.50 ms | ±0.18% | 1.53 ms | 1.46 ms | 4.99 ms | 668.43 ops/s | 5.03× slower |
+| SWC | 2.77 ms | ±0.13% | 2.81 ms | 2.72 ms | 5.80 ms | 360.94 ops/s | 9.31× slower |
 
 ## Run Benchmarks
 
@@ -106,9 +106,13 @@ bun bench
 
 This will run benchmarks on all test files. Results are saved to the `result/` directory.
 
+Benchmark duration is configurable via environment variables: `BENCH_TIME` (timed duration per run in ms, default 10000), `BENCH_WARMUP` (warmup duration in ms, default 2000), and `BENCH_RUNS` (independent runs per parser, default 3). For the most stable numbers, run on AC power with no other applications running.
+
 ## Methodology
 
 Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinybench) with warmup iterations followed by multiple timed runs. Each run measures the time to parse the source text into an AST. Source files are read from disk once and kept in memory for all iterations.
+
+To keep results stable and fair, every parser × file combination runs in its own freshly spawned process, so JIT state and GC pressure from one parser never affect another. Each combination is benchmarked in multiple independent runs (3 by default), and the reported median is the median across those runs — a statistic that is robust to GC pauses, OS scheduling blips, and other outliers. The RME column shows the relative margin of error (99% confidence) within a run; differences between parsers smaller than their combined margins should be treated as noise.
 
 Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
 
