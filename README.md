@@ -63,6 +63,20 @@ A high-performance & spec-compliant JavaScript/TypeScript compiler written in Zi
 | SWC | 120.55 ms | ±0.30% | 120.73 ms | 117.93 ms | 127.31 ms | 8.30 ops/s | 7.14× slower |
 | Acorn | Failed to parse | - | - | - | - | - | - |
 
+### [lib.dom.d.ts](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/lib.dom.d.ts)
+
+**File size:** 2.24 MB
+
+![Bar chart comparing npm parser speeds for lib.dom.d.ts](charts/lib_dom.png)
+
+| Parser | Median | RME | Mean | Min | Max | Ops/sec | Relative |
+|--------|--------|-----|------|-----|-----|---------|----------|
+| **Yuku** | **8.73 ms** | **±0.42%** | **8.78 ms** | **7.89 ms** | **54.31 ms** | **114.59 ops/s** | **baseline** |
+| Oxc | 23.71 ms | ±0.74% | 24.11 ms | 22.93 ms | 69.41 ms | 42.17 ops/s | 2.72× slower |
+| Babel | 36.86 ms | ±0.77% | 36.80 ms | 31.24 ms | 69.96 ms | 27.13 ops/s | 4.22× slower |
+| SWC | 50.82 ms | ±0.50% | 50.79 ms | 48.94 ms | 73.76 ms | 19.68 ops/s | 5.82× slower |
+| Acorn | Failed to parse | - | - | - | - | - | - |
+
 ### [react.js](https://raw.githubusercontent.com/yuku-toolchain/parser-benchmark-files/refs/heads/main/react.js)
 
 **File size:** 0.07 MB
@@ -98,7 +112,13 @@ cd ecmascript-parser-benchmark-js
 bun install
 ```
 
-3. Run benchmarks:
+3. Download the benchmark files:
+
+```bash
+bun load-files
+```
+
+4. Run benchmarks:
 
 ```bash
 bun bench
@@ -115,6 +135,8 @@ Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinyben
 To keep results stable and fair, every parser × file combination runs in its own freshly spawned process, so JIT state and GC pressure from one parser never affect another. Each combination is benchmarked in multiple independent runs (3 by default), and the reported median is the median across those runs, a statistic that is robust to GC pauses, OS scheduling blips, and other outliers. The RME column shows the relative margin of error (99% confidence) within a run. Differences between parsers smaller than their combined margins should be treated as noise.
 
 Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
+
+`lib.dom.d.ts` is a global declaration script with no imports or exports. SWC parses it as a script rather than a module, because its npm binding otherwise rejects the file's `...arguments` parameter names under module strict mode.
 
 **Why is Oxc slower than Babel here?** By default, `oxc-parser` serializes the AST to a JSON string on the Rust side and runs `JSON.parse` on the JavaScript side when you access `result.program`. Oxc's Rust-side parsing is extremely fast. It is this serialization boundary that dominates the end-to-end time. (If you call `parseSync` and never touch the result, Oxc looks much faster, because `program` is a lazy getter that defers the `JSON.parse`. The benchmarks above measure the time to actually obtain the full AST, which is what any real consumer of a parser does.)
 

@@ -11,6 +11,7 @@ import { parse as yukuParseSync, type SourceLang } from "yuku-parser";
 const FILES: Record<string, { path: string; lang: SourceLang }> = {
   typescript: { path: "files/typescript.js", lang: "js" },
   checker: { path: "files/checker.ts", lang: "ts" },
+  lib_dom: { path: "files/lib.dom.d.ts", lang: "dts" },
   react: { path: "files/react.js", lang: "js" },
 };
 
@@ -38,16 +39,20 @@ interface FileResult {
   results: BenchResult[];
 }
 
+function isTsLang(lang: SourceLang): boolean {
+  return lang === "ts" || lang === "tsx" || lang === "dts";
+}
+
 function parserNamesFor(lang: SourceLang): string[] {
-  const isTs = lang === "ts" || lang === "tsx";
-  return isTs
+  return isTsLang(lang)
     ? ["Babel", "Oxc", "SWC", "Yuku"]
     : ["Acorn", "Babel", "Oxc", "SWC", "Yuku"];
 }
 
 function createParserTasks(source: string, lang: SourceLang): Record<string, () => void> {
-  const isTs = lang === "ts" || lang === "tsx";
+  const isTs = isTsLang(lang);
   const isJsx = lang === "tsx";
+  const isDts = lang === "dts";
   const tasks: Record<string, () => void> = {};
 
   if (!isTs) {
@@ -57,7 +62,7 @@ function createParserTasks(source: string, lang: SourceLang): Record<string, () 
   }
 
   const babelPlugins: babel.ParserPlugin[] = [];
-  if (isTs) babelPlugins.push("typescript");
+  if (isTs) babelPlugins.push(isDts ? ["typescript", { dts: true }] : "typescript");
   if (isJsx) babelPlugins.push("jsx");
   tasks.Babel = () => {
     const { program: _ } = babel.parse(source, {
@@ -67,13 +72,16 @@ function createParserTasks(source: string, lang: SourceLang): Record<string, () 
     });
   };
 
-  const oxcFilename = isJsx ? "bench.tsx" : isTs ? "bench.ts" : "bench.js";
+  const oxcFilename = isDts ? "bench.d.ts" : isJsx ? "bench.tsx" : isTs ? "bench.ts" : "bench.js";
   tasks.Oxc = () => {
     const { program: _ } = oxc.parseSync(oxcFilename, source);
   };
 
-  const swcSyntax: SwcParseOptions = isTs
-    ? { syntax: "typescript", tsx: isJsx }
+  // Declaration files are parsed as scripts: SWC's binding throws on the
+  // `...arguments` parameter names in lib.dom.d.ts when parsing as a module.
+  // `isModule` is accepted by the binding but missing from the ParseOptions type.
+  const swcSyntax: SwcParseOptions & { isModule?: boolean } = isTs
+    ? { syntax: "typescript", tsx: isJsx, isModule: !isDts }
     : { syntax: "ecmascript" };
   tasks.SWC = () => {
     const { body: _ } = swc.parseSync(source, swcSyntax);

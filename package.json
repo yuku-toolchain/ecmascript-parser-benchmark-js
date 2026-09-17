@@ -7,6 +7,7 @@
     "load-files": "bun scripts/load-files.ts",
     "bench:typescript": "bun scripts/bench.ts typescript",
     "bench:checker": "bun scripts/bench.ts checker",
+    "bench:lib_dom": "bun scripts/bench.ts lib_dom",
     "bench:react": "bun scripts/bench.ts react",
     "readme": "bun scripts/generate-readme.ts",
     "update-parsers": "bun update --latest --force",

@@ -62,6 +62,10 @@ const FILES = {
     path: "files/checker.ts",
     source_url: `${FILES_SOURCE_URL_PREFIX}/checker.ts`,
   },
+  lib_dom: {
+    path: "files/lib.dom.d.ts",
+    source_url: `${FILES_SOURCE_URL_PREFIX}/lib.dom.d.ts`,
+  },
   react: {
     path: "files/react.js",
     source_url: `${FILES_SOURCE_URL_PREFIX}/react.js`,
@@ -347,7 +351,13 @@ cd ecmascript-parser-benchmark-js
 bun install
 \`\`\`
 
-3. Run benchmarks:
+3. Download the benchmark files:
+
+\`\`\`bash
+bun load-files
+\`\`\`
+
+4. Run benchmarks:
 
 \`\`\`bash
 bun bench
@@ -366,6 +376,8 @@ Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinyben
 To keep results stable and fair, every parser × file combination runs in its own freshly spawned process, so JIT state and GC pressure from one parser never affect another. Each combination is benchmarked in multiple independent runs (3 by default), and the reported median is the median across those runs, a statistic that is robust to GC pauses, OS scheduling blips, and other outliers. The RME column shows the relative margin of error (99% confidence) within a run. Differences between parsers smaller than their combined margins should be treated as noise.
 
 Native parsers (Oxc, SWC, Yuku) run through their respective NAPI bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
+
+\`lib.dom.d.ts\` is a global declaration script with no imports or exports. SWC parses it as a script rather than a module, because its npm binding otherwise rejects the file's \`...arguments\` parameter names under module strict mode.
 
 **Why is Oxc slower than Babel here?** By default, \`oxc-parser\` serializes the AST to a JSON string on the Rust side and runs \`JSON.parse\` on the JavaScript side when you access \`result.program\`. Oxc's Rust-side parsing is extremely fast. It is this serialization boundary that dominates the end-to-end time. (If you call \`parseSync\` and never touch the result, Oxc looks much faster, because \`program\` is a lazy getter that defers the \`JSON.parse\`. The benchmarks above measure the time to actually obtain the full AST, which is what any real consumer of a parser does.)
 
