@@ -4,26 +4,26 @@
     .ratio { font-size: 12px; fill: #fff }
   </style>
   <text x="64" y="11" text-anchor="end">SWC Next</text>
-  <rect x="74" y="0" width="47" height="22" rx="4" fill="#2DBD85"/>
-  <text x="129" y="11">0.19 ms</text>
+  <rect x="74" y="0" width="41" height="22" rx="4" fill="#2DBD85"/>
+  <text x="123" y="11">0.17 ms</text>
   <text x="64" y="41" text-anchor="end">Yuku</text>
-  <rect x="74" y="30" width="49" height="22" rx="4" fill="#FF6B35"/>
-  <text x="131" y="41">0.20 ms</text>
-  <text class="ratio" x="115" y="41" text-anchor="end">1.05×</text>
+  <rect x="74" y="30" width="51" height="22" rx="4" fill="#FF6B35"/>
+  <text x="133" y="41">0.21 ms</text>
+  <text class="ratio" x="117" y="41" text-anchor="end">1.24×</text>
   <text x="64" y="71" text-anchor="end">Acorn</text>
   <rect x="74" y="60" width="166" height="22" rx="4" fill="#4CC9F0"/>
-  <text x="248" y="71">0.67 ms</text>
-  <text class="ratio" x="232" y="71" text-anchor="end">3.58×</text>
+  <text x="248" y="71">0.68 ms</text>
+  <text class="ratio" x="232" y="71" text-anchor="end">4.05×</text>
   <text x="64" y="101" text-anchor="end">Babel</text>
-  <rect x="74" y="90" width="220" height="22" rx="4" fill="#7209B7"/>
-  <text x="302" y="101">0.88 ms</text>
-  <text class="ratio" x="286" y="101" text-anchor="end">4.73×</text>
+  <rect x="74" y="90" width="222" height="22" rx="4" fill="#7209B7"/>
+  <text x="304" y="101">0.91 ms</text>
+  <text class="ratio" x="288" y="101" text-anchor="end">5.43×</text>
   <text x="64" y="131" text-anchor="end">Oxc</text>
-  <rect x="74" y="120" width="237" height="22" rx="4" fill="#F72585"/>
-  <text x="319" y="131">0.95 ms</text>
-  <text class="ratio" x="303" y="131" text-anchor="end">5.09×</text>
+  <rect x="74" y="120" width="228" height="22" rx="4" fill="#F72585"/>
+  <text x="310" y="131">0.93 ms</text>
+  <text class="ratio" x="294" y="131" text-anchor="end">5.57×</text>
   <text x="64" y="161" text-anchor="end">SWC</text>
   <rect x="74" y="150" width="486" height="22" rx="4" fill="#3A86FF"/>
-  <text x="568" y="161">1.95 ms</text>
-  <text class="ratio" x="552" y="161" text-anchor="end">10.44×</text>
+  <text x="568" y="161">1.99 ms</text>
+  <text class="ratio" x="552" y="161" text-anchor="end">11.88×</text>
 </svg>

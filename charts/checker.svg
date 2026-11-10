@@ -4,22 +4,22 @@
     .ratio { font-size: 12px; fill: #fff }
   </style>
   <text x="64" y="11" text-anchor="end">SWC Next</text>
-  <rect x="74" y="0" width="54" height="22" rx="4" fill="#2DBD85"/>
-  <text x="136" y="11">11.77 ms</text>
+  <rect x="74" y="0" width="49" height="22" rx="4" fill="#2DBD85"/>
+  <text x="131" y="11">11.10 ms</text>
   <text x="64" y="41" text-anchor="end">Yuku</text>
   <rect x="74" y="30" width="55" height="22" rx="4" fill="#FF6B35"/>
-  <text x="137" y="41">11.91 ms</text>
-  <text class="ratio" x="121" y="41" text-anchor="end">1.01×</text>
+  <text x="137" y="41">12.41 ms</text>
+  <text class="ratio" x="121" y="41" text-anchor="end">1.12×</text>
   <text x="64" y="71" text-anchor="end">Oxc</text>
-  <rect x="74" y="60" width="250" height="22" rx="4" fill="#F72585"/>
-  <text x="332" y="71">54.39 ms</text>
-  <text class="ratio" x="316" y="71" text-anchor="end">4.62×</text>
+  <rect x="74" y="60" width="237" height="22" rx="4" fill="#F72585"/>
+  <text x="319" y="71">53.53 ms</text>
+  <text class="ratio" x="303" y="71" text-anchor="end">4.82×</text>
   <text x="64" y="101" text-anchor="end">Babel</text>
-  <rect x="74" y="90" width="255" height="22" rx="4" fill="#7209B7"/>
-  <text x="337" y="101">55.47 ms</text>
-  <text class="ratio" x="321" y="101" text-anchor="end">4.71×</text>
+  <rect x="74" y="90" width="254" height="22" rx="4" fill="#7209B7"/>
+  <text x="336" y="101">57.46 ms</text>
+  <text class="ratio" x="320" y="101" text-anchor="end">5.17×</text>
   <text x="64" y="131" text-anchor="end">SWC</text>
   <rect x="74" y="120" width="486" height="22" rx="4" fill="#3A86FF"/>
-  <text x="568" y="131">105.71 ms</text>
-  <text class="ratio" x="552" y="131" text-anchor="end">8.98×</text>
+  <text x="568" y="131">109.73 ms</text>
+  <text class="ratio" x="552" y="131" text-anchor="end">9.88×</text>
 </svg>

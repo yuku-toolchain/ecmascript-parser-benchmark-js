@@ -4,26 +4,26 @@
     .ratio { font-size: 12px; fill: #fff }
   </style>
   <text x="64" y="11" text-anchor="end">SWC Next</text>
-  <rect x="74" y="0" width="47" height="22" rx="4" fill="#2DBD85"/>
-  <text x="129" y="11">33.66 ms</text>
+  <rect x="74" y="0" width="41" height="22" rx="4" fill="#2DBD85"/>
+  <text x="123" y="11">30.15 ms</text>
   <text x="64" y="41" text-anchor="end">Yuku</text>
-  <rect x="74" y="30" width="52" height="22" rx="4" fill="#FF6B35"/>
-  <text x="134" y="41">37.07 ms</text>
-  <text class="ratio" x="118" y="41" text-anchor="end">1.10×</text>
+  <rect x="74" y="30" width="53" height="22" rx="4" fill="#FF6B35"/>
+  <text x="135" y="41">39.23 ms</text>
+  <text class="ratio" x="119" y="41" text-anchor="end">1.30×</text>
   <text x="64" y="71" text-anchor="end">Acorn</text>
-  <rect x="74" y="60" width="154" height="22" rx="4" fill="#4CC9F0"/>
-  <text x="236" y="71">110.06 ms</text>
-  <text class="ratio" x="220" y="71" text-anchor="end">3.27×</text>
+  <rect x="74" y="60" width="159" height="22" rx="4" fill="#4CC9F0"/>
+  <text x="241" y="71">116.99 ms</text>
+  <text class="ratio" x="225" y="71" text-anchor="end">3.88×</text>
   <text x="64" y="101" text-anchor="end">Babel</text>
-  <rect x="74" y="90" width="185" height="22" rx="4" fill="#7209B7"/>
-  <text x="267" y="101">132.13 ms</text>
-  <text class="ratio" x="251" y="101" text-anchor="end">3.92×</text>
+  <rect x="74" y="90" width="192" height="22" rx="4" fill="#7209B7"/>
+  <text x="274" y="101">140.80 ms</text>
+  <text class="ratio" x="258" y="101" text-anchor="end">4.67×</text>
   <text x="64" y="131" text-anchor="end">Oxc</text>
-  <rect x="74" y="120" width="245" height="22" rx="4" fill="#F72585"/>
-  <text x="327" y="131">175.09 ms</text>
-  <text class="ratio" x="311" y="131" text-anchor="end">5.20×</text>
+  <rect x="74" y="120" width="253" height="22" rx="4" fill="#F72585"/>
+  <text x="335" y="131">185.60 ms</text>
+  <text class="ratio" x="319" y="131" text-anchor="end">6.16×</text>
   <text x="64" y="161" text-anchor="end">SWC</text>
   <rect x="74" y="150" width="486" height="22" rx="4" fill="#3A86FF"/>
-  <text x="568" y="161">346.83 ms</text>
-  <text class="ratio" x="552" y="161" text-anchor="end">10.30×</text>
+  <text x="568" y="161">356.86 ms</text>
+  <text class="ratio" x="552" y="161" text-anchor="end">11.84×</text>
 </svg>
