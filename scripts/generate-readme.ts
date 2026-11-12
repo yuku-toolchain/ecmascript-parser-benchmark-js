@@ -27,6 +27,11 @@ const PARSERS = {
       "An extensible Rust-based platform for compiling and bundling JavaScript and TypeScript.",
     url: "https://github.com/swc-project/swc",
   },
+  swc_next: {
+    name: "SWC Next",
+    description: "The next-generation SWC JavaScript and TypeScript parser.",
+    url: "https://github.com/swc-project/swc-next",
+  },
   yuku: {
     name: "Yuku",
     description:
@@ -40,6 +45,7 @@ const CHART_COLORS: Record<string, string> = {
   babel: "#7209B7",
   oxc: "#F72585",
   swc: "#3A86FF",
+  swc_next: "#2DBD85",
   yuku: "#FF6B35",
 };
 
@@ -48,6 +54,7 @@ const NAME_TO_KEY: Record<string, string> = {
   Babel: "babel",
   Oxc: "oxc",
   SWC: "swc",
+  "SWC Next": "swc_next",
   Yuku: "yuku",
 };
 
@@ -326,7 +333,7 @@ Each parser is benchmarked using [Tinybench](https://github.com/tinylibs/tinyben
 
 To keep results stable and fair, every parser × file combination runs in its own freshly spawned process, so JIT state and GC pressure from one parser never affect another. Each combination is benchmarked in multiple independent runs (3 by default), and the reported median is the median across those runs, a statistic that is robust to GC pauses, OS scheduling blips, and other outliers. The RME column shows the relative margin of error (99% confidence) within a run. Differences between parsers smaller than their combined margins should be treated as noise.
 
-Native parsers (Oxc, SWC, Yuku) run through their respective bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
+Native parsers (Oxc, SWC, SWC Next, Yuku) run through their respective bindings, so measured time includes the binding overhead. Pure JS parsers (Acorn, Babel) run directly in the JavaScript runtime.
 
 \`lib.dom.d.ts\` is a global declaration script with no imports or exports. SWC parses it as a script rather than a module, because its npm binding otherwise rejects the file's \`...arguments\` parameter names under module strict mode.
 

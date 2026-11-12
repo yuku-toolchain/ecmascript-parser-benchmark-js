@@ -5,6 +5,7 @@ import * as acorn from "acorn";
 import * as babel from "@babel/parser";
 import * as oxc from "oxc-parser";
 import swc from "@swc/core";
+import { parseSync as swcNextParseSync, type Lang } from "@swc-next/parser";
 import type { ParseOptions as SwcParseOptions } from "@swc/types";
 import { parse as yukuParseSync, type SourceLang } from "yuku";
 
@@ -45,8 +46,8 @@ function isTsLang(lang: SourceLang): boolean {
 
 function parserNamesFor(lang: SourceLang): string[] {
   return isTsLang(lang)
-    ? ["Babel", "Oxc", "SWC", "Yuku"]
-    : ["Acorn", "Babel", "Oxc", "SWC", "Yuku"];
+    ? ["Babel", "Oxc", "SWC", "SWC Next", "Yuku"]
+    : ["Acorn", "Babel", "Oxc", "SWC", "SWC Next", "Yuku"];
 }
 
 function createParserTasks(source: string, lang: SourceLang): Record<string, () => void> {
@@ -85,6 +86,10 @@ function createParserTasks(source: string, lang: SourceLang): Record<string, () 
     : { syntax: "ecmascript" };
   tasks.SWC = () => {
     const { body: _ } = swc.parseSync(source, swcSyntax);
+  };
+
+  tasks["SWC Next"] = () => {
+    const { program: _ } = swcNextParseSync(source, { lang: lang as Lang });
   };
 
   const yukuOptions = lang === "js" ? undefined : { lang };
